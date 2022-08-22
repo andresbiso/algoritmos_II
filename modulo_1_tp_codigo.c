@@ -1,37 +1,3 @@
-// ejemplo en clase
-#include <stdio.h>
-
-void cargar(int a[][10], int dim){
-    int i,j;
-    for(i=0;i<dim;i++){
-        for(j=0;j<dim;j++){
-            printf("ingrese un valor");
-            scanf("%d",&a[i][j]);
-        }
-    }
-}
-
-void mostrar(int a[][10], int dim){
-    int i,j;
-    for(i=0;i<dim;i++){
-        printf("\n");
-        for(j=0;j<dim;j++){
-            printf("%d \t",a[i][j]);
-            }
-    }
-}
-
-
-
-int main() {
-   int mat[10][10], dim;
-   printf("ingrese cant de filas");
-   scanf("%d",&dim);
-   cargar(mat,dim);
-   mostrar(mat,dim);
-    return 0;
-}
-
 // https://www.onlinegdb.com/
 
 /*
@@ -192,35 +158,35 @@ int main() {
 	printf("Ingrese vértice origen (o 0 para finalizar):\n");
 	scanf("%d", &verticeOrigen);
 	
-	printf("Ingrese vértice destino (o 0 para finalizar):\n");
-	scanf("%d", &verticeDestino);
-	
+	if (verticeOrigen > 0) {
+		printf("Ingrese vértice destino (o 0 para finalizar):\n");
+		scanf("%d", &verticeDestino);
+	}
+
 	while(verticeOrigen > 0 && verticeDestino > 0) {
 		
-		for(i = 0; i < filas ; i++)
+		int encontroValor = 0;
+		for(j = 0; j < columnas; j++)
 		{
-			for(j = 0; j < columnas; j++)
-			{
-				printf("%d", mat[i][j]);
-				printf("\t");
+			encontroValor = mat[verticeOrigen - 1][j] == mat[verticeDestino - 1][j];
+			// Si ambos vértices para una arista tienen valor en 1
+			if (encontroValor) {
+				int arista = j + 1;
+				printf("La arista %d une los vértices %d y %d\n", arista, verticeOrigen, verticeDestino);
 			}
-			printf("\n");
 		}
 		
-		
-		int valorIncidencia = mat[verticeOrigen - 1][verticeDestino - 1];
-		
-		if (valorIncidencia == 1) {
-			printf("Existe una arista entre los vértices %d y %d\n", verticeOrigen, verticeDestino);
-		} else {
+		if (!encontroValor) {
 			printf("No existe una arista entre los vértices %d y %d\n", verticeOrigen, verticeDestino);
 		}
-		
+
 		printf("Ingrese vértice origen (o 0 para finalizar):\n");
 		scanf("%d", &verticeOrigen);
 		
-		printf("Ingrese vértice destino (o 0 para finalizar):\n");
-		scanf("%d", &verticeDestino);
+		if (verticeOrigen > 0) {
+			printf("Ingrese vértice destino (o 0 para finalizar):\n");
+			scanf("%d", &verticeDestino);
+		}
 	}
 	
     return 0;
@@ -228,10 +194,10 @@ int main() {
 
 /*
 13)
-Desarrollar un algoritmo y luego codificarlo en C que dado un grafo dirigido A calcule la transpuesta de la matriz de adyacencia de A. ¿Quéinformación nos brinda la matriz transpuesta?
+Desarrollar un algoritmo y luego codificarlo en C que dado un grafo dirigido A calcule la transpuesta de la matriz de adyacencia de A. ¿Qué información nos brinda la matriz transpuesta?
 */
 
 /*
 14)
-Desarrollar un algoritmo y luego codificarlo en C quedada la matriz de incidencia de un grafo A, calcule A.At.¿Que representan los elementos de esa matriz producto?
+Desarrollar un algoritmo y luego codificarlo en C que dada la matriz de incidencia de un grafo A, calcule A.At.¿Que representan los elementos de esa matriz producto?
 */
