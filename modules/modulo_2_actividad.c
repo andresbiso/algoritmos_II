@@ -9,82 +9,145 @@ Es una multilista donde la lista principal tiene los vertices del grafo y la sub
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Nodo {
+typedef struct NodoVertice {
+	int valor;
+    struct NodoVertice *proximoVertice;
+	struct NodoConexion *proximaConexion;
+} NodoVertice;
+
+typedef struct NodoConexion {
     int valor;
-    struct Nodo *proximo;
-} Nodo;
+    struct NodoConexion *proximo;
+} NodoConexion;
 
-typedef struct Lista {
-    struct Nodo *comienzo;
-    struct Lista *proximaLista;
-} Lista;
+void agregarNodoVertice(NodoVertice **nodoVerticeInicial, int valor) {
+    NodoVertice *nodoVerticeTemp, *nodoVerticeActual;
+    nodoVerticeTemp = malloc(sizeof(NodoVertice));
+    nodoVerticeTemp->valor = valor;
+    nodoVerticeTemp->proximoVertice = NULL;
+	nodoVerticeTemp->proximaConexion = NULL;
 
-void insertarNodo(Nodo **nodoInicial, int valor) {
-    Nodo *temp, *nodoActual;
-    temp = malloc(sizeof(Nodo));
-    temp->valor = valor;
-    temp->proximo = NULL;
-
-    if((*nodoInicial) == NULL) {
-        (*nodoInicial) = temp;
+    if((*nodoVerticeInicial) == NULL) {
+        (*nodoVerticeInicial) = nodoVerticeTemp;
     } else {
-        nodoActual = (*nodoInicial);
-        while(nodoActual->proximo != NULL){
-            nodoActual = nodoActual->proximo;
+        nodoVerticeActual = (*nodoVerticeInicial);
+        while(nodoVerticeActual->proximoVertice != NULL){
+            nodoVerticeActual = nodoVerticeActual->proximoVertice;
         }
-        nodoActual->proximo = temp;
+        nodoVerticeActual->proximoVertice = nodoVerticeTemp;
     }
 }
 
-void insertarLista(Lista **primeraLista, Nodo *nodoInicial) {
-    Lista *temp, *listaActual;
-    temp = malloc(sizeof(Lista));
-    temp->comienzo = nodoInicial;
-    temp->proximaLista = NULL;
-    if((*primeraLista) == NULL) {
-        (*primeraLista) = temp;
+void agregarNodoConexion(NodoConexion **nodoConexionInicial, int valor) {
+	NodoConexion *nodoConexionTemp, *nodoConexionActual;
+    nodoConexionTemp = malloc(sizeof(NodoConexion));
+    nodoConexionTemp->valor = valor;
+    nodoConexionTemp->proximo = NULL;
+
+    if((*nodoConexionInicial) == NULL) {
+        (*nodoConexionInicial) = nodoConexionTemp;
     } else {
-        listaActual = (*primeraLista);
-        while(listaActual->proximaLista != NULL) {
-            listaActual = listaActual->proximaLista;
+        nodoConexionActual = (*nodoConexionInicial);
+        while(nodoConexionActual->proximo != NULL){
+            nodoConexionActual = nodoConexionActual->proximo;
         }
-        listaActual->proximaLista = temp;
+        nodoConexionActual->proximo = nodoConexionTemp;
     }
 }
 
-void mostrar(Lista *primeraLista){
-    int i = 1;
-    Lista *listaActual;
-    Nodo *nodoActual; //curentlis
-    listaActual = primeraLista;
-    while(listaActual != NULL) {
-        nodoActual = listaActual->comienzo;
-        printf("Lista %d: ", i);
-        while(nodoActual != NULL) {
-            printf("%d ", nodoActual->valor);
-            nodoActual = nodoActual->proximo;
+int existeValorNodoVertice(NodoVertice **nodoVerticeInicial, int valor) {
+    NodoVertice *nodoVerticeActual;
+
+    if((*nodoVerticeInicial) == NULL) {
+        return 0;
+    }
+	
+	nodoVerticeActual = (*nodoVerticeInicial);
+	while(nodoVerticeActual != NULL){
+		if(nodoVerticeActual->valor == valor) {
+			return 1;
+		}
+		nodoVerticeActual = nodoVerticeActual->proximoVertice;
+	}
+	return 0;
+}
+
+int existeValorNodoConexion(NodoConexion **nodoConexionInicial, int valor) {
+    NodoConexion *nodoConexionActual;
+
+    if(nodoConexionActual == NULL) {
+        return 0;
+    }
+	
+	nodoConexionActual = (*nodoConexionInicial);
+	while(nodoConexionActual != NULL){
+		if(nodoConexionActual->valor == valor) {
+			return 1;
+		}
+		nodoConexionActual = nodoConexionActual->proximo;
+	}
+	return 0;
+}
+
+void mostrar(NodoVertice **nodoVerticeInicial){
+    NodoVertice *nodoVerticeActual;
+    nodoVerticeActual = (*nodoVerticeInicial);
+    while(nodoVerticeActual != NULL) {
+        printf("Vértice %d", nodoVerticeActual->valor);
+		NodoConexion *nodoConexionActual = nodoVerticeActual->proximaConexion;
+        while(nodoConexionActual != NULL) {
+            printf(" -> %d", nodoConexionActual->valor);
+            nodoConexionActual = nodoConexionActual->proximo;
         }
-        i++;
+        nodoVerticeActual = nodoVerticeActual->proximoVertice;
         printf("\n");
-        listaActual = listaActual->proximaLista;
     }
 }
 
 int main() {
-    Nodo *nodoInicial = NULL, *nodoInicial2 = NULL, *nodoInicial3 = NULL;
-    Lista *listaInicial = NULL;
-    insertarNodo(&nodoInicial, 20);
-    insertarNodo(&nodoInicial, 13);
-    insertarNodo(&nodoInicial, 22);
-    insertarNodo(&nodoInicial, 18);
-    insertarNodo(&nodoInicial2, 42);
-    insertarNodo(&nodoInicial2, 15);
-    insertarNodo(&nodoInicial3, 12);
-    insertarNodo(&nodoInicial3, 14);
-    insertarNodo(&nodoInicial3, 28);
-    insertarLista(&listaInicial, nodoInicial);
-    insertarLista(&listaInicial, nodoInicial2);
-    insertarLista(&listaInicial, nodoInicial3);
-    mostrar(listaInicial);
+    NodoVertice *nodoVerticeInicial = NULL;
+	
+	int valorNodo = 0;
+	while(valorNodo > -1) {
+		printf("Ingrese valor del nodo (o -1 para finalizar):\n");
+		scanf("%d", &valorNodo);
+		
+		if (valorNodo <= -1) {
+			break;
+		}
+		
+		if(existeValorNodoVertice(&nodoVerticeInicial, valorNodo) == 0) {
+			agregarNodoVertice(&nodoVerticeInicial, valorNodo);
+		} else {
+			printf("Ya existe un nodo con valor %d:\n", valorNodo);
+		}
+	}
+
+	NodoVertice *nodoVerticeActual = nodoVerticeInicial;
+	while(nodoVerticeActual != NULL) {
+		int valorRelacion = 0;
+		while(valorRelacion > -1) {
+			printf("Ingrese valor del nodo que se relaciona con nodo %d (o -1 para finalizar):\n", nodoVerticeActual->valor);
+			scanf("%d", &valorRelacion);	
+	
+			if (valorRelacion <= -1) {
+				break;
+			}
+		
+			if(existeValorNodoVertice(&nodoVerticeInicial, valorRelacion) != 0) {
+				if(existeValorNodoConexion(&(nodoVerticeActual->proximaConexion), valorRelacion) == 0) {
+					agregarNodoConexion(&(nodoVerticeActual->proximaConexion), valorRelacion);
+				} else {
+					printf("Ya existe una relacion con el nodo con valor %d:\n", valorRelacion);
+				}
+			} else {
+				printf("El nodo con valor %d no existe \n", valorRelacion);
+			}
+		}
+		
+		nodoVerticeActual = nodoVerticeActual->proximoVertice;
+	}
+
+    mostrar(&nodoVerticeInicial);
     return 0;
 }
