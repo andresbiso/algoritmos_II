@@ -9,20 +9,23 @@ Es una multilista donde la lista principal tiene los vertices del grafo y la sub
 #include <stdio.h>
 #include <stdlib.h>
 
-struct nodo {
-    int numero;
+struct Nodo {
+    int valor;
     struct nodo *proximo;
 };
 
-struct lista {
+struct Lista {
     struct nodo *comienzo;
     struct lista *proximaLista;
-}; 
+};
 
-void insertarNodo(struct nodo **cabeza, int numero){
-    struct nodo *temp, *nodoActual;
-    temp = malloc(sizeof(struct nodo));
-    temp->numero = numero;
+typedef struct Nodo Nodo;
+typedef struct Lista Lista;
+
+void insertarNodo(Nodo **cabeza, int valor){
+    Nodo *temp, *nodoActual;
+    temp = malloc(sizeof(Nodo));
+    temp->valor = valor;
     temp->proximo = NULL;
 
     if((*cabeza) == NULL) {
@@ -36,9 +39,9 @@ void insertarNodo(struct nodo **cabeza, int numero){
     }
 }
 
-void insertarLista(struct lista **primeraLista, struct nodo *cabeza) {
-    struct lista *temp, *listaActual;
-    temp = malloc(sizeof(struct lista));
+void insertarLista(Lista **primeraLista, Nodo *cabeza) {
+    Lista *temp, *listaActual;
+    temp = malloc(sizeof(Lista));
     temp->comienzo = cabeza;
     temp->proximaLista = NULL;
     if((*primeraLista) == NULL) {
@@ -52,16 +55,16 @@ void insertarLista(struct lista **primeraLista, struct nodo *cabeza) {
     }
 }
 
-void mostrar(struct lista *primeraLista){
+void mostrar(Lista *primeraLista){
     int i = 1;
-    struct lista *listaActual;
-    struct nodo *nodoActual; //curentlis
+    Lista *listaActual;
+    Nodo *nodoActual; //curentlis
     listaActual = primeraLista;
     while(listaActual != NULL) {
         nodoActual = listaActual->comienzo;
         printf("Lista %d: ", i);
         while(nodoActual != NULL) {
-            printf("%d ", nodoActual->numero);
+            printf("%d ", nodoActual->valor);
             nodoActual = nodoActual->proximo;
         }
         i++;
@@ -71,8 +74,8 @@ void mostrar(struct lista *primeraLista){
 }
 
 int main(){
-    struct nodo *nodoInicial = NULL, *nodoInicial2 = NULL, *nodoInicial3 = NULL;
-    struct lista *listaInicial = NULL;
+    Nodo *nodoInicial = NULL, *nodoInicial2 = NULL, *nodoInicial3 = NULL;
+    Lista *listaInicial = NULL;
     insertarNodo(&nodoInicial, 20);
     insertarNodo(&nodoInicial, 13);
     insertarNodo(&nodoInicial, 22);
