@@ -11,7 +11,7 @@ Es una multilista donde la lista principal tiene los vertices del grafo y la sub
 
 typedef struct NodoVertice {
 	int valor;
-    struct NodoVertice *proximoVertice;
+	struct NodoVertice *proximoVertice;
 	struct NodoConexion *proximaConexion;
 } NodoVertice;
 
