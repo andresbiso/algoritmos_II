@@ -9,29 +9,26 @@ Es una multilista donde la lista principal tiene los vertices del grafo y la sub
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Nodo {
+typedef struct Nodo {
     int valor;
-    struct nodo *proximo;
-};
+    struct Nodo *proximo;
+} Nodo;
 
-struct Lista {
-    struct nodo *comienzo;
-    struct lista *proximaLista;
-};
+typedef struct Lista {
+    struct Nodo *comienzo;
+    struct Lista *proximaLista;
+} Lista;
 
-typedef struct Nodo Nodo;
-typedef struct Lista Lista;
-
-void insertarNodo(Nodo **cabeza, int valor){
+void insertarNodo(Nodo **nodoInicial, int valor) {
     Nodo *temp, *nodoActual;
     temp = malloc(sizeof(Nodo));
     temp->valor = valor;
     temp->proximo = NULL;
 
-    if((*cabeza) == NULL) {
-        (*cabeza) = temp;
+    if((*nodoInicial) == NULL) {
+        (*nodoInicial) = temp;
     } else {
-        nodoActual = (*head);
+        nodoActual = (*nodoInicial);
         while(nodoActual->proximo != NULL){
             nodoActual = nodoActual->proximo;
         }
@@ -39,10 +36,10 @@ void insertarNodo(Nodo **cabeza, int valor){
     }
 }
 
-void insertarLista(Lista **primeraLista, Nodo *cabeza) {
+void insertarLista(Lista **primeraLista, Nodo *nodoInicial) {
     Lista *temp, *listaActual;
     temp = malloc(sizeof(Lista));
-    temp->comienzo = cabeza;
+    temp->comienzo = nodoInicial;
     temp->proximaLista = NULL;
     if((*primeraLista) == NULL) {
         (*primeraLista) = temp;
