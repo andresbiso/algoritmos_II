@@ -73,7 +73,7 @@ void mostrar(Lista *primeraLista){
     }
 }
 
-int main(){
+int main() {
     Nodo *nodoInicial = NULL, *nodoInicial2 = NULL, *nodoInicial3 = NULL;
     Lista *listaInicial = NULL;
     insertarNodo(&nodoInicial, 20);
@@ -89,5 +89,5 @@ int main(){
     insertarLista(&listaInicial, nodoInicial2);
     insertarLista(&listaInicial, nodoInicial3);
     mostrar(listaInicial);
-	return 0;
+    return 0;
 }
