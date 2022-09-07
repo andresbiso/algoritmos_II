@@ -179,7 +179,16 @@ int main() {
 2) Quitar arista
 3) Agregar nodo
 4) Agregar Arista
-5) Verificar si es euleriano -> primero verificar con Teorema para verificar si un grafo es conexo de la clase 29/08 https://www.javatpoint.com/matrix-multiplication-in-c
+5) Verificar si es euleriano
+5.1 verificar con Teorema para verificar si un grafo es conexo de la clase 29/08
+Obtner la matríx de adyacencia
+https://www.javatpoint.com/matrix-multiplication-in-c
+https://www.geeksforgeeks.org/convert-adjacency-list-to-adjacency-matrix-representation-of-a-graph/
+
+5.2 Obtener A^2, A^3,...A^n-1 siendo N el número de vértices del grafo
+5.3 Sumar las matrices y verificar si dio 0 fuera de la diagonal principal. Si ese es el caso se dice que no es conexo.
+
+
 luego verificar que todos los vertices sean pares o que haya como máximo 2 vértices impares
 6) Agregar el menu
 */
