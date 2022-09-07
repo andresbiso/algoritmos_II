@@ -36,6 +36,25 @@ void agregarNodoVertice(NodoVertice **nodoVerticeInicial, int valor) {
     }
 }
 
+void quitarNodoVertice(NodoVertice **nodoVerticeInicial, int valor) {
+    NodoVertice *nodoVerticeTemp, *nodoVerticeActual;
+    nodoVerticeTemp = malloc(sizeof(NodoVertice));
+    nodoVerticeTemp->valor = valor;
+    nodoVerticeTemp->proximoVertice = NULL;
+	nodoVerticeTemp->proximaConexion = NULL;
+
+    if((*nodoVerticeInicial) == NULL) {
+        (*nodoVerticeInicial) = nodoVerticeTemp;
+    } else {
+        nodoVerticeActual = (*nodoVerticeInicial);
+        while(nodoVerticeActual->proximoVertice != NULL){
+            nodoVerticeActual = nodoVerticeActual->proximoVertice;
+        }
+        nodoVerticeActual->proximoVertice = nodoVerticeTemp;
+    }
+}
+
+
 void agregarNodoConexion(NodoConexion **nodoConexionInicial, int valor) {
 	NodoConexion *nodoConexionTemp, *nodoConexionActual;
     nodoConexionTemp = malloc(sizeof(NodoConexion));
@@ -149,42 +168,56 @@ int main() {
     mostrar(&nodoVerticeInicial);
 	
 	
-		// char menu_option,initials;
-    // int difficulty;
-
-    // printf("        EDUCATIONAL MATH PROGRAM!!!\n");
-    // printf("------------------------------------------\n\n");
-
-
-    // do{
-    // printf("Main Menu\n");
-    // printf("a. Learn about how to use program.\n");
-    // printf("b. Enter your initials (3 individual letters).\n");
-    // printf("c. Difficulty Selection.\n");
-    // printf("d. Start a new sequence of problems.\n");
-    // printf("e. Save and quit.\n");
-    // printf(" Please enter an option from the main menu: ");
-    // scanf("%c",&menu_option);
-
-    // switch(menu_option){
-
-    // case 'a':
-        // break;
-    // case 'b':
-        // break;
-    // case'c':
-        // printf("case c");
-        // break;
-    // case'd':
-        // break;
-    // case'e':
-        // break;
-    // default:
-        // printf("invalid input");
-            // break;
-    // }
-
-    // }while(menu_option !='e');
+	
 	
     return 0;
 }
+
+
+/*
+1) Quitar nodo
+2) Quitar arista
+3) Agregar nodo
+4) Agregar Arista
+5) Verificar si es euleriano -> primero verificar con Teorema para verificar si un grafo es conexo de la clase 29/08 https://www.javatpoint.com/matrix-multiplication-in-c
+luego verificar que todos los vertices sean pares o que haya como máximo 2 vértices impares
+6) Agregar el menu
+*/
+
+// Menu
+// char menu_option,initials;
+// int difficulty;
+
+// printf("        EDUCATIONAL MATH PROGRAM!!!\n");
+// printf("------------------------------------------\n\n");
+
+
+// do{
+// printf("Main Menu\n");
+// printf("a. Learn about how to use program.\n");
+// printf("b. Enter your initials (3 individual letters).\n");
+// printf("c. Difficulty Selection.\n");
+// printf("d. Start a new sequence of problems.\n");
+// printf("e. Save and quit.\n");
+// printf(" Please enter an option from the main menu: ");
+// scanf("%c",&menu_option);
+
+// switch(menu_option){
+
+// case 'a':
+	// break;
+// case 'b':
+	// break;
+// case'c':
+	// printf("case c");
+	// break;
+// case'd':
+	// break;
+// case'e':
+	// break;
+// default:
+	// printf("invalid input");
+		// break;
+// }
+
+// }while(menu_option !='e');
