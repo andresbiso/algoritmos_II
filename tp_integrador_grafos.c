@@ -180,6 +180,10 @@ int main() {
 3) Agregar nodo
 4) Agregar Arista
 5) Verificar si es euleriano
+
+-> Podría utilizar el algoritmo de recorrido en profundidad y/o ancura.
+Esto permitiria determinar si existe un camino entre todos los nodos y, por ende, determinar que es conexo.
+
 5.1 verificar con Teorema para verificar si un grafo es conexo de la clase 29/08
 Obtner la matríx de adyacencia
 https://www.javatpoint.com/matrix-multiplication-in-c
