@@ -6,62 +6,107 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+typedef int Item;
+typedef struct Elemento
+{
+	Item dato;
+	struct Elemento *siguiente;
+} Nodo;
+void InsertarCabezaLista(Nodo **cabeza, Item entrada);
+Nodo *NuevoNodo(Item x);
 
 int main()
 {
-	int menu_option;
+	Item d;
+	Nodo *cabeza, *ptr;
+	int k;
 
-	printf("Bienvenido!\n");
-	printf("-----------\n\n");
-
-	do
+	cabeza = NULL;
+	for (d = 0; d < 10; d++)
 	{
-		printf("Menú Principal\n");
-		printf("1-Agregar Nodo\n");
-		printf("2-Agregar Arista\n");
-		printf("3-Quitar Nodo\n");
-		printf("4-Quitar Arista\n");
-		printf("5-Verificar conexo\n");
-		printf("6-Verificar euleriano\n");
-		printf("7-Imprimir Grafo\n");
-		printf("8-Iniciar Grafo\n");
-		printf("20-Save and quit.\n");
-		printf("Ingrese una opción:");
-		scanf("%d", &menu_option);
-
-		switch (menu_option)
-		{
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			case 7:
-				break;
-			case 8:
-				break;
-			case 20:
-				break;
-			default:
-				printf("Opción Inválida \n");
-				printf("Presione [Enter] para continuar \n");
-				do {
-				    getchar();
-				} while(getchar()!='\n');
-				break;
-		}
-
-	} while (menu_option != 20);
-
+		InsertarCabezaLista(&cabeza, d);
+	}
+	ptr = cabeza;
+	while (ptr != NULL)
+	{
+		printf ("%d ",ptr->dato);
+		 ptr = ptr->siguiente;
+	 }
+	printf ("\n\n");
 	return 0;
 }
+
+void InsertarCabezaLista(Nodo **cabeza, Item entrada) {
+	Nodo *nuevo;
+	nuevo = NuevoNodo(entrada);
+	nuevo->siguiente = *cabeza;
+	*cabeza = nuevo;
+}
+
+Nodo* NuevoNodo(Item x) {
+	Nodo *a;
+	a = (Nodo*)malloc(sizeof(Nodo));
+	a->dato=x;
+	a->siguiente=NULL;
+	return a;
+}
+
+// int main()
+// {
+// 	int menu_option;
+
+// 	printf("Bienvenido!\n");
+// 	printf("-----------\n\n");
+
+// 	do
+// 	{
+// 		printf("Menú Principal\n");
+// 		printf("1-Agregar Nodo\n");
+// 		printf("2-Agregar Arista\n");
+// 		printf("3-Quitar Nodo\n");
+// 		printf("4-Quitar Arista\n");
+// 		printf("5-Verificar conexo\n");
+// 		printf("6-Verificar euleriano\n");
+// 		printf("7-Imprimir Grafo\n");
+// 		printf("8-Iniciar Grafo\n");
+// 		printf("20-Save and quit.\n");
+// 		printf("Ingrese una opción:");
+// 		scanf("%d", &menu_option);
+
+// 		switch (menu_option)
+// 		{
+// 			case 1:
+// 				break;
+// 			case 2:
+// 				break;
+// 			case 3:
+// 				break;
+// 			case 4:
+// 				break;
+// 			case 5:
+// 				break;
+// 			case 6:
+// 				break;
+// 			case 7:
+// 				break;
+// 			case 8:
+// 				break;
+// 			case 20:
+// 				break;
+// 			default:
+// 				printf("Opción Inválida \n");
+// 				printf("Presione [Enter] para continuar \n");
+// 				do {
+// 				    getchar();
+// 				} while(getchar()!='\n');
+// 				break;
+// 		}
+
+// 	} while (menu_option != 20);
+
+// 	return 0;
+// }
 
 /*
 1) Quitar nodo
