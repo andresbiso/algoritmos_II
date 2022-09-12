@@ -50,7 +50,11 @@ int main()
 			case 20:
 				break;
 			default:
-				printf("Opción Inválida.");
+				printf("Opción Inválida \n");
+				printf("Presione [Enter] para continuar \n");
+				do {
+				    getchar();
+				} while(getchar()!='\n');
 				break;
 		}
 
