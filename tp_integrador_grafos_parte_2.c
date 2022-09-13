@@ -11,10 +11,10 @@ typedef int Item;
 typedef struct Elemento
 {
 	Item dato;
-	struct Elemento *siguiente;
+	struct Elemento* siguiente;
 } Nodo;
-void InsertarCabezaLista(Nodo **cabeza, Item entrada);
-Nodo *NuevoNodo(Item x);
+void InsertarCabezaLista(Nodo** cabeza, Item entrada);
+Nodo* NuevoNodo(Item x);
 
 int main()
 {
