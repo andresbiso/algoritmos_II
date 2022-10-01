@@ -42,7 +42,8 @@ int main()
 	addNodeTail(&adjacencyList, 5);
 	addNodeTail(&adjacencyList, 6);
 
-	addEdge(&adjacencyList, 1, 2);
+	addEdge(&adjacencyList, 2, 5);
+	addEdge(&adjacencyList, 2, 6);
 
 	printAdjacencyList(&adjacencyList);
 
@@ -146,15 +147,11 @@ void addEdge(Node** listHeadRef, Item itemA, Item itemB)
 
 	// Insert edge for first node
 
-	currentEdge = nodeA->nextEdge;
-
-	printf("NodeA %p", (void *)currentEdge);
-	printf("\n");
-
-	if(currentEdge == NULL) {
-		currentEdge = newEdgeB;
+	if(nodeA->nextEdge == NULL) {
+		nodeA->nextEdge = newEdgeB;
 	} else {
-		while (currentEdge != NULL) {
+		currentEdge = nodeA->nextEdge;
+		while (currentEdge->next != NULL) {
         	currentEdge = currentEdge->next;
     	}
 		currentEdge->next = newEdgeB;
@@ -162,15 +159,11 @@ void addEdge(Node** listHeadRef, Item itemA, Item itemB)
 
 	// Insert edge for second node
 
-	currentEdge = nodeB->nextEdge;
-
-	printf("NodeB %p", (void *)currentEdge);
-	printf("\n");
-
-	if(currentEdge == NULL) {
-		currentEdge = newEdgeA;
+	if(nodeB->nextEdge == NULL) {
+		nodeB->nextEdge = newEdgeA;
 	} else {
-		while (currentEdge != NULL) {
+		currentEdge = nodeB->nextEdge;
+		while (currentEdge->next != NULL) {
         	currentEdge = currentEdge->next;
     	}
 		currentEdge->next = newEdgeA;
