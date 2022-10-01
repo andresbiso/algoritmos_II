@@ -26,6 +26,8 @@ void addNodeTail(Node** listHeadRef, Item item);
 Node* createNode(Item item);
 void removeNode(Node** listHeadRef, Item item);
 void printAdjacencyList(Node** listHeadRef);
+Edge* createEdge(Item item);
+void addEdge(Node** listHeadRef, Item itemA, Item itemB);
 
 int main()
 {
@@ -39,6 +41,8 @@ int main()
 	addNodeTail(&adjacencyList, 4);
 	addNodeTail(&adjacencyList, 5);
 	addNodeTail(&adjacencyList, 6);
+
+	addEdge(&adjacencyList, 1, 2);
 
 	printAdjacencyList(&adjacencyList);
 
@@ -98,6 +102,86 @@ void removeNode(Node** listHeadRef, Item item)
     prevNode->next = currentNode->next;
  
     free(currentNode);
+}
+
+void addEdge(Node** listHeadRef, Item itemA, Item itemB)
+{
+	Edge *newEdgeA, *newEdgeB, *currentEdge;
+	Node *currentNode, *nodeA, *nodeB;
+	newEdgeA = createEdge(itemA);
+	newEdgeB = createEdge(itemB);
+
+	currentNode = *listHeadRef;
+
+    if (currentNode == NULL) {
+        return;
+    }
+
+	// Search for first node
+	while (currentNode != NULL && currentNode->data != itemA) {
+        currentNode = currentNode->next;
+    }
+
+	nodeA = currentNode;
+
+	if (nodeA == NULL) {
+		printf("El nodo ingresado con valor %d no existe", itemA);
+        return;
+    }
+
+	// Search for second node
+
+	currentNode = *listHeadRef;
+
+	while (currentNode != NULL && currentNode->data != itemB) {
+        currentNode = currentNode->next;
+    }
+
+	nodeB = currentNode;
+
+	if (nodeB == NULL) {
+		printf("El nodo ingresado con valor %d no existe", itemB);
+        return;
+    }
+
+	// Insert edge for first node
+
+	currentEdge = nodeA->nextEdge;
+
+	printf("%d", currentEdge.data);
+
+	if(currentEdge == NULL) {
+		currentEdge = newEdgeB;
+	} else {
+		while (currentEdge != NULL) {
+        	currentEdge = currentEdge->next;
+    	}
+		currentEdge->next = newEdgeB;
+	}
+
+	// Insert edge for second node
+
+	currentEdge = nodeB->nextEdge;
+
+	if(currentEdge == NULL) {
+		currentEdge = newEdgeA;
+	} else {
+		while (currentEdge != NULL) {
+        	currentEdge = currentEdge->next;
+    	}
+		currentEdge->next = newEdgeA;
+	}
+
+	return;
+}
+
+Edge* createEdge(Item item)
+{
+	Edge *newEdge;
+	newEdge = (Edge*)malloc(sizeof(Edge));
+	newEdge->data = item;
+	newEdge->next = NULL;
+	return newEdge;
 }
 
 void printAdjacencyList(Node** listHeadRef) {
