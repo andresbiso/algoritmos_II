@@ -102,6 +102,9 @@ void removeNode(Node** listHeadRef, Item item)
 
 void printAdjacencyList(Node** listHeadRef) {
 	Node *ptr_node;
+
+	printf("***Nodos***");
+	printf("\n");
 	ptr_node = *listHeadRef;
 	while (ptr_node != NULL)
 	{
@@ -111,6 +114,22 @@ void printAdjacencyList(Node** listHeadRef) {
 			printf("->");
 		}
 	}
+	printf ("\n\n");
+
+	printf("***Conexiones***");
+	printf("\n");
+	Node *ptrNode;
+	ptrNode = *listHeadRef;
+    while(ptrNode != NULL) {
+        printf("%d", ptrNode->data);
+		Edge *ptrEdge = ptrNode->nextEdge;
+        while(ptrEdge != NULL) {
+            printf(" -> %d", ptrEdge->data);
+            ptrEdge = ptrEdge->next;
+        }
+        ptrNode = ptrNode->next;
+        printf("\n");
+    }
 	printf ("\n\n");
 }
 
