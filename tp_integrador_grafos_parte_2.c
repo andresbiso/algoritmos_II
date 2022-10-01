@@ -22,23 +22,87 @@ struct EdgeElement
 };
 
 // Functions Declarations
-void addNewTailNode(Node** adjacencyList, Item item);
+void addNodeTail(Node** listHeadRef, Item item);
 Node* createNode(Item item);
+void removeNode(Node** listHeadRef, Item item);
+void printAdjacencyList(Node** listHeadRef);
 
 int main()
 {
-	Node *adjacencyList, *ptr_node;
+	Node *adjacencyList;
 
 	adjacencyList = NULL;
 	
-	addNewTailNode(&adjacencyList, 1);
-	addNewTailNode(&adjacencyList, 2);
-	addNewTailNode(&adjacencyList, 3);
-	addNewTailNode(&adjacencyList, 4);
-	addNewTailNode(&adjacencyList, 5);
-	addNewTailNode(&adjacencyList, 6);
+	addNodeTail(&adjacencyList, 1);
+	addNodeTail(&adjacencyList, 2);
+	addNodeTail(&adjacencyList, 3);
+	addNodeTail(&adjacencyList, 4);
+	addNodeTail(&adjacencyList, 5);
+	addNodeTail(&adjacencyList, 6);
 
-	ptr_node = adjacencyList;
+	printAdjacencyList(&adjacencyList);
+
+	removeNode(&adjacencyList, 4);
+
+	printAdjacencyList(&adjacencyList);
+
+	return 0;
+}
+
+void addNodeTail(Node** listHeadRef, Item item)
+{
+	Node *newNode, *currentNode;
+	newNode = createNode(item);
+
+    if(*listHeadRef == NULL) {
+        *listHeadRef = newNode;
+    } else {
+        currentNode = *listHeadRef;
+        while(currentNode->next != NULL) {
+            currentNode = currentNode->next;
+        }
+        currentNode->next = newNode;
+    }
+}
+
+Node* createNode(Item item)
+{
+	Node *newNode;
+	newNode = (Node*)malloc(sizeof(Node));
+	newNode->data = item;
+	newNode->next = NULL;
+	newNode->nextEdge = NULL;
+	return newNode;
+}
+
+void removeNode(Node** listHeadRef, Item item)
+{
+    Node *currentNode, *prevNode;
+
+	currentNode = *listHeadRef;
+
+	if (currentNode == NULL)
+        return;
+ 
+    if (currentNode != NULL && currentNode->data == item) {
+        *listHeadRef = currentNode->next;
+        free(currentNode);
+        return;
+    }
+ 
+    while (currentNode != NULL && currentNode->data != item) {
+        prevNode = currentNode;
+        currentNode = currentNode->next;
+    }
+ 
+    prevNode->next = currentNode->next;
+ 
+    free(currentNode);
+}
+
+void printAdjacencyList(Node** listHeadRef) {
+	Node *ptr_node;
+	ptr_node = *listHeadRef;
 	while (ptr_node != NULL)
 	{
 		printf ("%d", ptr_node->data);
@@ -48,31 +112,6 @@ int main()
 		}
 	}
 	printf ("\n\n");
-	return 0;
-}
-
-void addNewTailNode(Node** adjacencyList, Item item) {
-	Node *newNode, *currentNode;
-	newNode = createNode(item);
-
-    if(*adjacencyList == NULL) {
-        *adjacencyList = newNode;
-    } else {
-        currentNode = *adjacencyList;
-        while(currentNode->next != NULL){
-            currentNode = currentNode->next;
-        }
-        currentNode->next = newNode;
-    }
-}
-
-Node* createNode(Item item) {
-	Node *newNode;
-	newNode = (Node*)malloc(sizeof(Node));
-	newNode->data = item;
-	newNode->next = NULL;
-	newNode->nextEdge = NULL;
-	return newNode;
 }
 
 // int main()
