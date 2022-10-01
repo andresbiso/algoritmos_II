@@ -22,23 +22,23 @@ struct EdgeElement
 };
 
 // Functions Declarations
-void addNewTailNode(Node** tail, Item item);
+void addNewTailNode(Node** adjacencyList, Item item);
 Node* createNode(Item item);
 
 int main()
 {
-	Node *list, *ptr_node;
+	Node *adjacencyList, *ptr_node;
 
-	list = NULL;
+	adjacencyList = NULL;
 	
-	addNewTailNode(&list, 1);
-	addNewTailNode(&list, 2);
-	addNewTailNode(&list, 3);
-	addNewTailNode(&list, 4);
-	addNewTailNode(&list, 5);
-	addNewTailNode(&list, 6);
+	addNewTailNode(&adjacencyList, 1);
+	addNewTailNode(&adjacencyList, 2);
+	addNewTailNode(&adjacencyList, 3);
+	addNewTailNode(&adjacencyList, 4);
+	addNewTailNode(&adjacencyList, 5);
+	addNewTailNode(&adjacencyList, 6);
 
-	ptr_node = list;
+	ptr_node = adjacencyList;
 	while (ptr_node != NULL)
 	{
 		printf ("%d", ptr_node->data);
@@ -51,15 +51,19 @@ int main()
 	return 0;
 }
 
-void addNewTailNode(Node** list, Item item) {
-	Node *newNode;
+void addNewTailNode(Node** adjacencyList, Item item) {
+	Node *newNode, *currentNode;
 	newNode = createNode(item);
-	if (*list == NULL) {
-		*list = newNode;
-	} else {
-		(*list)->next = newNode;
-	}
-	
+
+    if(*adjacencyList == NULL) {
+        *adjacencyList = newNode;
+    } else {
+        currentNode = *adjacencyList;
+        while(currentNode->next != NULL){
+            currentNode = currentNode->next;
+        }
+        currentNode->next = newNode;
+    }
 }
 
 Node* createNode(Item item) {
