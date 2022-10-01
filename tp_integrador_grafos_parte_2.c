@@ -148,7 +148,8 @@ void addEdge(Node** listHeadRef, Item itemA, Item itemB)
 
 	currentEdge = nodeA->nextEdge;
 
-	printf("%d", currentEdge.data);
+	printf("NodeA %p", (void *)currentEdge);
+	printf("\n");
 
 	if(currentEdge == NULL) {
 		currentEdge = newEdgeB;
@@ -162,6 +163,9 @@ void addEdge(Node** listHeadRef, Item itemA, Item itemB)
 	// Insert edge for second node
 
 	currentEdge = nodeB->nextEdge;
+
+	printf("NodeB %p", (void *)currentEdge);
+	printf("\n");
 
 	if(currentEdge == NULL) {
 		currentEdge = newEdgeA;
