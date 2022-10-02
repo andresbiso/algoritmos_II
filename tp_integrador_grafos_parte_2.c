@@ -62,10 +62,15 @@ int main()
 	addNodeTail(&adjacencyList, 6);
 
 	addNodeTail(&adjacencyList, 6);
-
+	
+	addEdge(&adjacencyList, 1, 2);
+	addEdge(&adjacencyList, 2, 3);
 	addEdge(&adjacencyList, 2, 4);
 	addEdge(&adjacencyList, 2, 5);
 	addEdge(&adjacencyList, 2, 6);
+	addEdge(&adjacencyList, 3, 4);
+	addEdge(&adjacencyList, 4, 5);
+	addEdge(&adjacencyList, 5, 6);
 
 	printNodeDegree(&adjacencyList, 2);
 	printTotalDegree(&adjacencyList);
@@ -565,6 +570,7 @@ bool checkIsConnectedGraph(Node** listHeadRef)
 	pushNodeStack(&nodeStack, currentNode->data);
 	currentNode->visited = true;
 
+	bool isFirstNode = true;
 	displayNodeStack(&nodeStack);
 	while (nodeStack != NULL) {
 		Node *stackTopNode;
@@ -572,6 +578,10 @@ bool checkIsConnectedGraph(Node** listHeadRef)
 		stackTopNode = nodeStack;
 		while(currentNode->data != stackTopNode->data) {
 			currentNode = currentNode->next;
+		}
+		if (isFirstNode) {
+			popNodeStack(&nodeStack);
+			isFirstNode = false;
 		}
 		currentEdge = currentNode->nextEdge;	
 		while(currentEdge != NULL) {
