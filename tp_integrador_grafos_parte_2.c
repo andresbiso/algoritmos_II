@@ -37,7 +37,9 @@ void printTotalDegree(Node** listHeadRef);
 float calculateTotalEdges(Node** listHeadRef);
 void printTotalEdges(Node** listHeadRef);
 bool checkIsGraph(Node** listHeadRef);
-bool printIsGraph(Node** listHeadRef);
+void printIsGraph(Node** listHeadRef);
+bool hasEulerianWalk(Node** listHeadRef);
+void printCheckEulerianWalk(Node** listHeadRef);
 
 int main()
 {
@@ -60,6 +62,7 @@ int main()
 	printTotalDegree(&adjacencyList);
 	printTotalEdges(&adjacencyList);
 	printIsGraph(&adjacencyList);
+	printCheckEulerianWalk(&adjacencyList);
 
 	printAdjacencyList(&adjacencyList);
 
@@ -462,13 +465,59 @@ bool checkIsGraph(Node** listHeadRef)
 	return totalDegree % 2 == 0;
 }
 
-bool printIsGraph(Node** listHeadRef)
+void printIsGraph(Node** listHeadRef)
 {
 	if(checkIsGraph(listHeadRef)) {
 		printf("Es un grafo");
 		printf("\n");
 	} else {
 		printf("No es un grafo");
+		printf("\n");
+	}
+}
+
+bool checkEulerianWalk(Node** listHeadRef)
+{
+	Node *currentNode;
+	int uneven = 0;
+
+	currentNode = *listHeadRef;
+
+    if (currentNode == NULL) {
+        return false;
+    }
+
+	// Check if is a connected graph
+	// All nodes must be connected for us to check if eulerian walk exists
+	/*
+		if(ifConnectedGraph(listHeadRef) == -1) {
+			// Checks with DFS if we can visit every node once
+			// If one of them has visited = 0 then we said it is not connected
+			return false;
+		}
+	*/
+
+	// Insert edge for first node
+	while (currentNode != NULL) {
+		int nodeDegree = calculateNodeDegree(listHeadRef, currentNode->data);
+		if (nodeDegree % 2 != 0) {
+			uneven += 1;
+		}
+		currentNode = currentNode->next;
+	}
+	
+	// Check Euler's Theorem
+	// All nodes have an even degree or two have an uneven degree
+	return uneven == 0 || uneven == 2;
+}
+
+void printCheckEulerianWalk(Node** listHeadRef)
+{
+	if(checkEulerianWalk(listHeadRef)) {
+		printf("El grafo tiene un camino euleriano");
+		printf("\n");
+	} else {
+		printf("El grafo no tiene un camino euleriano");
 		printf("\n");
 	}
 }
