@@ -54,6 +54,8 @@ int main()
 	addNodeTail(&adjacencyList, 5);
 	addNodeTail(&adjacencyList, 6);
 
+	addNodeTail(&adjacencyList, 6);
+
 	addEdge(&adjacencyList, 2, 4);
 	addEdge(&adjacencyList, 2, 5);
 	addEdge(&adjacencyList, 2, 6);
@@ -77,6 +79,21 @@ int main()
 void addNodeTail(Node** listHeadRef, Item item)
 {
 	Node *newNode, *currentNode;
+
+	// Check if node already exists
+
+	while (currentNode != NULL && currentNode->data != item) {
+        currentNode = currentNode->next;
+    }
+
+	if (currentNode != NULL && currentNode->data == item) {
+		printf("El nodo con valor %d ya existe", item);
+		printf("\n");
+		return;
+	}
+
+	// Insert new node
+
 	newNode = createNode(item);
 
     if(*listHeadRef == NULL) {
