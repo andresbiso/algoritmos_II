@@ -46,6 +46,7 @@ void printCheckIsConnectedGraph(Node** listHeadRef);
 void resetVisitedNodes(Node** listHeadRef);
 void pushNodeStack(Node** stackHeadRef, Item item);
 int popNodeStack(Node** stackHeadRef);
+void displayNodeStack(Node** stackHeadRef);
 
 int main()
 {
@@ -564,25 +565,35 @@ bool checkIsConnectedGraph(Node** listHeadRef) {
 	pushNodeStack(&nodeStack, currentNode->data);
 	currentNode->visited = true;
 
+	displayNodeStack(&nodeStack);
 	while(nodeStack != NULL) {
 		Node *stackTopNode;
 		Edge *currentEdge;
 		stackTopNode = nodeStack;
+		printf("stack %d", stackTopNode-> data);
+		printf("node %d", currentNode-> data);
 		while(currentNode->data != stackTopNode->data) {
 			currentNode = currentNode->next;
 		}
+		printf("hola");
 		currentEdge = currentNode->nextEdge;
+		printf("edge %d", currentEdge-> data);
 		while(currentEdge != NULL) {
 			currentNode = *listHeadRef;
 			while(currentNode->data != currentEdge->data) {
 				currentNode = currentNode->next;
 			}
-			currentNode->visited = true;
-			pushNodeStack(&nodeStack, currentNode->data);
+			if (currentNode->visited == false) {
+				currentNode->visited = true;
+				pushNodeStack(&nodeStack, currentNode->data);
+			}
 			currentEdge = currentEdge->next;
 		}
+		displayNodeStack(&nodeStack);
 		popNodeStack(&nodeStack);
 	}
+	
+	displayNodeStack(&nodeStack);
 
 	currentNode = *listHeadRef;
 
@@ -625,32 +636,48 @@ void resetVisitedNodes(Node** listHeadRef) {
 }
 
 void pushNodeStack(Node** stackHeadRef, Item item) {
-	Node *newNode, *stackTop;
+	Node *newNode;
 
 	newNode = createNode(item);
 
-	stackTop = *stackHeadRef;
-
-    if(stackTop == NULL) {
-        newNode->next = NULL;
-    } else {
-        newNode->next = stackTop;
+    if(*stackHeadRef != NULL) {
+        newNode->next = *stackHeadRef;
     }
-	stackTop = newNode;
+
+	*stackHeadRef = newNode;
 }
 
 int popNodeStack(Node** stackHeadRef) {
-	Node *stackTop;
-	stackTop = *stackHeadRef;
-    if (stackTop == NULL) {
+    if (*stackHeadRef == NULL) {
         return -1;
     } else {
         Node *tempNode;
-		tempNode = stackTop;
+		Node *stackTop;
+		stackTop = *stackHeadRef;
+		tempNode = *stackHeadRef;
         int stackTopData = stackTop->data;
         stackTop = stackTop->next;
         free(tempNode);
         return stackTopData;
+    }
+}
+
+void displayNodeStack(Node** stackHeadRef) {
+	Node *stackTop;
+	stackTop = *stackHeadRef;
+    if (stackTop == NULL) {
+		printf("Pila Vacía");
+        printf("\n");
+    } else {
+        printf("Pila: ");
+        Node *tempNode;
+		tempNode = stackTop;
+        while (tempNode != NULL) {
+            printf("%d->", tempNode->data);
+            tempNode = tempNode->next;
+        }
+		printf("NULL");
+        printf("\n");
     }
 }
 
