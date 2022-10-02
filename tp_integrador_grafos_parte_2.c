@@ -26,8 +26,9 @@ void addNodeTail(Node** listHeadRef, Item item);
 Node* createNode(Item item);
 void removeNode(Node** listHeadRef, Item item);
 void printAdjacencyList(Node** listHeadRef);
-Edge* createEdge(Item item);
 void addEdge(Node** listHeadRef, Item itemA, Item itemB);
+Edge* createEdge(Item item);
+void removeEdge(Node** listHeadRef, Item itemA, Item itemB);
 
 int main()
 {
@@ -47,6 +48,7 @@ int main()
 
 	printAdjacencyList(&adjacencyList);
 
+	removeEdge(&adjacencyList, 2, 6);
 	removeNode(&adjacencyList, 4);
 
 	printAdjacencyList(&adjacencyList);
@@ -103,6 +105,8 @@ void removeNode(Node** listHeadRef, Item item)
     prevNode->next = currentNode->next;
  
     free(currentNode);
+
+	return;
 }
 
 void addEdge(Node** listHeadRef, Item itemA, Item itemB)
@@ -181,6 +185,123 @@ Edge* createEdge(Item item)
 	return newEdge;
 }
 
+void removeEdge(Node** listHeadRef, Item itemA, Item itemB)
+{
+	Edge *currentEdge, *prevEdge;
+	Node *currentNode, *nodeA, *nodeB;
+
+	currentNode = *listHeadRef;
+
+    if (currentNode == NULL) {
+        return;
+    }
+
+	// Search for first node
+	while (currentNode != NULL && currentNode->data != itemA) {
+        currentNode = currentNode->next;
+    }
+
+	nodeA = currentNode;
+
+	if (nodeA == NULL) {
+		printf("El nodo ingresado con valor %d no existe", itemA);
+        return;
+    }
+
+	// Search for second node
+
+	currentNode = *listHeadRef;
+
+	while (currentNode != NULL && currentNode->data != itemB) {
+        currentNode = currentNode->next;
+    }
+
+	nodeB = currentNode;
+
+	if (nodeB == NULL) {
+		printf("El nodo ingresado con valor %d no existe", itemB);
+        return;
+    }
+
+	// Check if nodes have edges
+
+	if (nodeA->nextEdge == NULL) {
+		printf("El nodo ingresado con valor %d no tiene aristas", itemA);
+		return;
+	}
+	
+	if (nodeB->nextEdge == NULL) {
+		printf("El nodo ingresado con valor %d no tiene aristas", itemB);
+		return;
+	}
+
+	// Check if both nodes have an edge between them
+
+	currentEdge = nodeA->nextEdge;
+
+	while (currentEdge != NULL && currentEdge->data != itemB) {
+        prevEdge = currentEdge;
+        currentEdge = currentEdge->next;
+    }
+
+	if (currentEdge == NULL) {
+		printf("El nodo ingresado con valor %d no tiene arista con nodo %d", itemA, itemB);
+		return;
+	}
+
+	currentEdge = nodeB->nextEdge;
+
+	while (currentEdge != NULL && currentEdge->data != itemA) {
+        prevEdge = currentEdge;
+        currentEdge = currentEdge->next;
+    }
+
+	if (currentEdge == NULL) {
+		printf("El nodo ingresado con valor %d no tiene arista con nodo %d", itemB, itemA);
+		return;
+	}
+
+	// Search and Remove edge for first node
+
+	currentEdge = nodeA->nextEdge;
+
+	if (currentEdge->data == itemB) {
+        nodeA->nextEdge = currentEdge->next;
+        free(currentEdge);
+        return;
+    }
+
+	while (currentEdge != NULL && currentEdge->data != itemB) {
+        prevEdge = currentEdge;
+        currentEdge = currentEdge->next;
+    }
+
+	prevEdge->next = currentEdge->next;
+ 
+    free(currentEdge);
+
+	// Search and Remove edge for second node
+
+	currentEdge = nodeB->nextEdge;
+
+	if (currentEdge->data == itemA) {
+        nodeB->nextEdge = currentEdge->next;
+        free(currentEdge);
+        return;
+    }
+
+	while (currentEdge != NULL && currentEdge->data != itemA) {
+        prevEdge = currentEdge;
+        currentEdge = currentEdge->next;
+    }
+
+	prevEdge->next = currentEdge->next;
+ 
+    free(currentEdge);
+
+	return;
+}
+
 void printAdjacencyList(Node** listHeadRef) {
 	Node *ptr_node;
 
@@ -212,6 +333,7 @@ void printAdjacencyList(Node** listHeadRef) {
         printf("\n");
     }
 	printf ("\n\n");
+	return;
 }
 
 // int main()
