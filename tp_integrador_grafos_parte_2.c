@@ -548,7 +548,8 @@ void printCheckEulerianWalk(Node** listHeadRef)
 	}
 }
 
-bool checkIsConnectedGraph(Node** listHeadRef) {
+bool checkIsConnectedGraph(Node** listHeadRef)
+{
 	Node *currentNode, *visitedNodeHead;
 
 	resetVisitedNodes(listHeadRef);
@@ -587,7 +588,6 @@ bool checkIsConnectedGraph(Node** listHeadRef) {
 		displayNodeStack(&nodeStack);
 		popNodeStack(&nodeStack);
 	}
-	
 	displayNodeStack(&nodeStack);
 
 	currentNode = *listHeadRef;
@@ -615,7 +615,8 @@ void printCheckIsConnectedGraph(Node** listHeadRef)
 	}
 }
 
-void resetVisitedNodes(Node** listHeadRef) {
+void resetVisitedNodes(Node** listHeadRef)
+{
 	Node *currentNode;
 
 	currentNode = *listHeadRef;
@@ -630,7 +631,8 @@ void resetVisitedNodes(Node** listHeadRef) {
     }
 }
 
-void pushNodeStack(Node** stackHeadRef, Item item) {
+void pushNodeStack(Node** stackHeadRef, Item item)
+{
 	Node *newNode;
 
 	newNode = createNode(item);
@@ -642,22 +644,21 @@ void pushNodeStack(Node** stackHeadRef, Item item) {
 	*stackHeadRef = newNode;
 }
 
-int popNodeStack(Node** stackHeadRef) {
-    if (*stackHeadRef == NULL) {
-        return -1;
-    } else {
-        Node *tempNode;
+int popNodeStack(Node** stackHeadRef)
+{
+	int stackTopData = -1;
+    if (*stackHeadRef != NULL) {
 		Node *stackTop;
 		stackTop = *stackHeadRef;
-		tempNode = *stackHeadRef;
-        int stackTopData = stackTop->data;
-        stackTop = stackTop->next;
-        free(tempNode);
-        return stackTopData;
+		stackTopData = stackTop->data;
+		*stackHeadRef = stackTop->next;
+		free(stackTop);
     }
+	return stackTopData;
 }
 
-void displayNodeStack(Node** stackHeadRef) {
+void displayNodeStack(Node** stackHeadRef)
+{
 	Node *ptrStack;
 
 	printf("***Pila***");
