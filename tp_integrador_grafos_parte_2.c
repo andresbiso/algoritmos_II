@@ -560,24 +560,19 @@ bool checkIsConnectedGraph(Node** listHeadRef) {
     }
 
 	// Iterative DFS
-
 	Node *nodeStack = NULL;
 	pushNodeStack(&nodeStack, currentNode->data);
 	currentNode->visited = true;
 
 	displayNodeStack(&nodeStack);
-	while(nodeStack != NULL) {
+	while (nodeStack != NULL) {
 		Node *stackTopNode;
 		Edge *currentEdge;
 		stackTopNode = nodeStack;
-		printf("stack %d", stackTopNode-> data);
-		printf("node %d", currentNode-> data);
 		while(currentNode->data != stackTopNode->data) {
 			currentNode = currentNode->next;
 		}
-		printf("hola");
-		currentEdge = currentNode->nextEdge;
-		printf("edge %d", currentEdge-> data);
+		currentEdge = currentNode->nextEdge;	
 		while(currentEdge != NULL) {
 			currentNode = *listHeadRef;
 			while(currentNode->data != currentEdge->data) {
