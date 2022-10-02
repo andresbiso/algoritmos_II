@@ -12,6 +12,7 @@ typedef struct EdgeElement Edge;
 struct NodeElement
 {
 	Item data;
+	bool visited;
 	struct NodeElement* next;
 	struct EdgeElement* nextEdge;
 };
@@ -40,6 +41,11 @@ bool checkIsGraph(Node** listHeadRef);
 void printIsGraph(Node** listHeadRef);
 bool hasEulerianWalk(Node** listHeadRef);
 void printCheckEulerianWalk(Node** listHeadRef);
+bool checkIsConnectedGraph(Node** listHeadRef);
+void printCheckIsConnectedGraph(Node** listHeadRef);
+void resetVisitedNodes(Node** listHeadRef);
+void pushNodeStack(Node** stackHeadRef, Item item);
+int popNodeStack(Node** stackHeadRef);
 
 int main()
 {
@@ -65,6 +71,7 @@ int main()
 	printTotalEdges(&adjacencyList);
 	printIsGraph(&adjacencyList);
 	printCheckEulerianWalk(&adjacencyList);
+	printCheckIsConnectedGraph(&adjacencyList);
 
 	printAdjacencyList(&adjacencyList);
 
@@ -112,6 +119,7 @@ Node* createNode(Item item)
 	Node *newNode;
 	newNode = (Node*)malloc(sizeof(Node));
 	newNode->data = item;
+	newNode->visited = false;
 	newNode->next = NULL;
 	newNode->nextEdge = NULL;
 	return newNode;
@@ -537,6 +545,112 @@ void printCheckEulerianWalk(Node** listHeadRef)
 		printf("El grafo no tiene un camino euleriano");
 		printf("\n");
 	}
+}
+
+bool checkIsConnectedGraph(Node** listHeadRef) {
+	Node *currentNode, *visitedNodeHead;
+
+	resetVisitedNodes(listHeadRef);
+
+	currentNode = *listHeadRef;
+
+    if (currentNode == NULL) {
+        return false;
+    }
+
+	// Iterative DFS
+
+	Node *nodeStack = NULL;
+	pushNodeStack(&nodeStack, currentNode->data);
+	currentNode->visited = true;
+
+	while(nodeStack != NULL) {
+		Node *stackTopNode;
+		Edge *currentEdge;
+		stackTopNode = nodeStack;
+		while(currentNode->data != stackTopNode->data) {
+			currentNode = currentNode->next;
+		}
+		currentEdge = currentNode->nextEdge;
+		while(currentEdge != NULL) {
+			currentNode = *listHeadRef;
+			while(currentNode->data != currentEdge->data) {
+				currentNode = currentNode->next;
+			}
+			currentNode->visited = true;
+			pushNodeStack(&nodeStack, currentNode->data);
+			currentEdge = currentEdge->next;
+		}
+		popNodeStack(&nodeStack);
+	}
+
+	currentNode = *listHeadRef;
+
+	bool isConnected = true;
+	while (currentNode != NULL) {
+		if (currentNode->visited == false) {
+			isConnected = false;
+			break;
+		}
+        currentNode = currentNode->next;
+    }
+
+	return isConnected;
+}
+
+void printCheckIsConnectedGraph(Node** listHeadRef)
+{
+	if(checkIsConnectedGraph(listHeadRef)) {
+		printf("El grafo es coenxo");
+		printf("\n");
+	} else {
+		printf("El grafo no es conexo");
+		printf("\n");
+	}
+}
+
+void resetVisitedNodes(Node** listHeadRef) {
+	Node *currentNode;
+
+	currentNode = *listHeadRef;
+
+    if (currentNode == NULL) {
+        return;
+    }
+
+	while (currentNode != NULL) {
+        currentNode->visited = false;
+    }
+}
+
+void pushNodeStack(Node** stackHeadRef, Item item) {
+	Node *newNode, *stackTop;
+
+	newNode = createNode(item);
+
+	stackTop = *stackHeadRef;
+
+    if(stackTop == NULL) {
+        newNode->next = NULL;
+    } else {
+        newNode->next = stackTop;
+    }
+	stackTop = newNode;
+}
+
+int popNodeStack(Node** stackHeadRef) {
+	Node *stackTop;
+	stackTop = *stackHeadRef;
+    if (stackTop == NULL) {
+        return -1;
+    } else {
+        Node *tempNode;
+		tempNode = stackTop;
+        int stackTopData = stackTop->data;
+        stackTop = stackTop->next;
+        free(tempNode);
+        return stackTopData;
+    }
 }
 
 void printAdjacencyList(Node** listHeadRef) {
