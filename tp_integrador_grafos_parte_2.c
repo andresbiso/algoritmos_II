@@ -29,6 +29,8 @@ void printAdjacencyList(Node** listHeadRef);
 void addEdge(Node** listHeadRef, Item itemA, Item itemB);
 Edge* createEdge(Item item);
 void removeEdge(Node** listHeadRef, Item itemA, Item itemB);
+int calculateNodeDegree(Node** listHeadRef, Item item);
+void printNodeDegree(Node** listHeadRef, Item item);
 
 int main()
 {
@@ -46,6 +48,8 @@ int main()
 	addEdge(&adjacencyList, 2, 4);
 	addEdge(&adjacencyList, 2, 5);
 	addEdge(&adjacencyList, 2, 6);
+
+	printNodeDegree(&adjacencyList, 2);
 
 	printAdjacencyList(&adjacencyList);
 
@@ -339,6 +343,54 @@ void removeEdge(Node** listHeadRef, Item itemA, Item itemB)
     free(currentEdge);
 
 	return;
+}
+
+int calculateNodeDegree(Node** listHeadRef, Item item)
+{
+	Node *currentNode;
+	int degree;
+
+	currentNode = *listHeadRef;
+
+    if (currentNode == NULL) {
+        return -1;
+    }
+
+	// Search for node
+
+	while (currentNode != NULL && currentNode->data != item) {
+        currentNode = currentNode->next;
+    }
+
+	if (currentNode == NULL) {
+		printf("El nodo ingresado con valor %d no existe", item);
+		printf("\n");
+        return -1;
+    }
+
+	// Insert edge for first node
+	degree = 0;
+	if(currentNode->nextEdge != NULL) {
+		Edge *currentEdge = currentNode->nextEdge;
+		while (currentEdge != NULL) {
+			degree += 1;
+        	currentEdge = currentEdge->next;
+    	}
+	}
+
+	return degree;
+}
+
+void printNodeDegree(Node** listHeadRef, Item item)
+{
+	int degree = calculateNodeDegree(listHeadRef, item);
+	if (degree > -1) {
+		printf("El nodo %d tiene grado: %d", item, degree);
+		printf("\n");
+	} else {
+		printf("El nodo ingresado con valor %d no existe", item);
+		printf("\n");
+	}
 }
 
 void printAdjacencyList(Node** listHeadRef) {
