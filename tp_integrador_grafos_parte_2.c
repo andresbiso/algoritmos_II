@@ -31,6 +31,8 @@ Edge* createEdge(Item item);
 void removeEdge(Node** listHeadRef, Item itemA, Item itemB);
 int calculateNodeDegree(Node** listHeadRef, Item item);
 void printNodeDegree(Node** listHeadRef, Item item);
+int calculateTotalDegree(Node** listHeadRef);
+void printTotalDegree(Node** listHeadRef);
 
 int main()
 {
@@ -50,6 +52,7 @@ int main()
 	addEdge(&adjacencyList, 2, 6);
 
 	printNodeDegree(&adjacencyList, 2);
+	printTotalDegree(&adjacencyList);
 
 	printAdjacencyList(&adjacencyList);
 
@@ -389,6 +392,42 @@ void printNodeDegree(Node** listHeadRef, Item item)
 		printf("\n");
 	} else {
 		printf("El nodo ingresado con valor %d no existe", item);
+		printf("\n");
+	}
+}
+
+int calculateTotalDegree(Node** listHeadRef)
+{
+	Node *currentNode;
+	int degree;
+
+	currentNode = *listHeadRef;
+
+    if (currentNode == NULL) {
+        return -1;
+    }
+
+	// Insert edge for first node
+	degree = 0;
+	while (currentNode != NULL) {
+		int nodeDegree = calculateNodeDegree(listHeadRef, currentNode->data);
+		if (nodeDegree > 0) {
+			degree = degree + nodeDegree;
+		}
+		currentNode = currentNode->next;
+	}
+	
+	return degree;
+}
+
+void printTotalDegree(Node** listHeadRef)
+{
+	int totalDegree = calculateTotalDegree(listHeadRef);
+	if (totalDegree > -1) {
+		printf("El grafo tiene grado total: %d", totalDegree);
+		printf("\n");
+	} else {
+		printf("El grafo no tiene nodos");
 		printf("\n");
 	}
 }
