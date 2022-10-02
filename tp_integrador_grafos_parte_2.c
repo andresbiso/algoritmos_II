@@ -1,3 +1,4 @@
+#include<stdbool.h>  
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -33,6 +34,10 @@ int calculateNodeDegree(Node** listHeadRef, Item item);
 void printNodeDegree(Node** listHeadRef, Item item);
 int calculateTotalDegree(Node** listHeadRef);
 void printTotalDegree(Node** listHeadRef);
+float calculateTotalEdges(Node** listHeadRef);
+void printTotalEdges(Node** listHeadRef);
+bool checkIsGraph(Node** listHeadRef);
+bool printIsGraph(Node** listHeadRef);
 
 int main()
 {
@@ -53,6 +58,8 @@ int main()
 
 	printNodeDegree(&adjacencyList, 2);
 	printTotalDegree(&adjacencyList);
+	printTotalEdges(&adjacencyList);
+	printIsGraph(&adjacencyList);
 
 	printAdjacencyList(&adjacencyList);
 
@@ -428,6 +435,40 @@ void printTotalDegree(Node** listHeadRef)
 		printf("\n");
 	} else {
 		printf("El grafo no tiene nodos");
+		printf("\n");
+	}
+}
+
+float calculateTotalEdges(Node** listHeadRef)
+{
+	int totalDegree = calculateTotalDegree(listHeadRef);
+	float totalEdges = 0;
+	if (totalDegree > -1) {
+		totalEdges = totalDegree / 2;
+	}
+	return totalEdges;
+}
+
+void printTotalEdges(Node** listHeadRef)
+{
+	float totalEdges = calculateTotalEdges(listHeadRef);
+	printf("El grafo una cantidad total de aristas: %f", totalEdges);
+	printf("\n");
+}
+
+bool checkIsGraph(Node** listHeadRef)
+{
+	int totalDegree = calculateTotalDegree(listHeadRef);
+	return totalDegree % 2 == 0;
+}
+
+bool printIsGraph(Node** listHeadRef)
+{
+	if(checkIsGraph(listHeadRef)) {
+		printf("Es un grafo");
+		printf("\n");
+	} else {
+		printf("No es un grafo");
 		printf("\n");
 	}
 }
