@@ -658,35 +658,36 @@ int popNodeStack(Node** stackHeadRef) {
 }
 
 void displayNodeStack(Node** stackHeadRef) {
-	Node *stackTop;
-	stackTop = *stackHeadRef;
-    if (stackTop == NULL) {
+	Node *ptrStack;
+
+	printf("***Pila***");
+	printf("\n");
+	ptrStack = *stackHeadRef;
+    if (ptrStack == NULL) {
 		printf("Pila Vacía");
-        printf("\n");
     } else {
-        printf("Pila: ");
-        Node *tempNode;
-		tempNode = stackTop;
-        while (tempNode != NULL) {
-            printf("%d->", tempNode->data);
-            tempNode = tempNode->next;
+        while (ptrStack != NULL) {
+            printf ("%d", ptrStack->data);
+			ptrStack = ptrStack->next;
+			if (ptrStack != NULL) {
+				printf("->");
+			}
         }
-		printf("NULL");
-        printf("\n");
     }
+	printf ("\n\n");
 }
 
 void printAdjacencyList(Node** listHeadRef) {
-	Node *ptr_node;
+	Node *ptrNode;
 
 	printf("***Nodos***");
 	printf("\n");
-	ptr_node = *listHeadRef;
-	while (ptr_node != NULL)
+	ptrNode = *listHeadRef;
+	while (ptrNode != NULL)
 	{
-		printf ("%d", ptr_node->data);
-		ptr_node = ptr_node->next;
-		if (ptr_node != NULL) {
+		printf ("%d", ptrNode->data);
+		ptrNode = ptrNode->next;
+		if (ptrNode != NULL) {
 			printf("->");
 		}
 	}
@@ -694,7 +695,7 @@ void printAdjacencyList(Node** listHeadRef) {
 
 	printf("***Conexiones***");
 	printf("\n");
-	Node *ptrNode;
+
 	ptrNode = *listHeadRef;
     while(ptrNode != NULL) {
         printf("%d", ptrNode->data);
