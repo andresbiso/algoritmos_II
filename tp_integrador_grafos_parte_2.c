@@ -601,7 +601,7 @@ bool checkIsConnectedGraph(Node** listHeadRef) {
 void printCheckIsConnectedGraph(Node** listHeadRef)
 {
 	if(checkIsConnectedGraph(listHeadRef)) {
-		printf("El grafo es coenxo");
+		printf("El grafo es conexo");
 		printf("\n");
 	} else {
 		printf("El grafo no es conexo");
@@ -620,6 +620,7 @@ void resetVisitedNodes(Node** listHeadRef) {
 
 	while (currentNode != NULL) {
         currentNode->visited = false;
+		currentNode = currentNode->next;
     }
 }
 
