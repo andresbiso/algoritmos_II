@@ -42,8 +42,11 @@ void printIsGraph(Node** listHeadRef);
 bool hasEulerianWalk(Node** listHeadRef);
 void printCheckEulerianWalk(Node** listHeadRef);
 bool checkIsConnectedGraph(Node** listHeadRef);
-void recursiveDFS(Node** listHeadRef, Item item, Node** stack);
+void recursiveDFS(Node** listHeadRef, Item item);
 void printCheckIsConnectedGraph(Node** listHeadRef);
+bool checkIsConnectedGraphWithStack(Node** listHeadRef);
+void recursiveDFSWithStack(Node** listHeadRef, Item item, Node** stack);
+void printCheckIsConnectedGraphWithStack(Node** listHeadRef);
 void resetVisitedNodes(Node** listHeadRef);
 void pushNodeStack(Node** stackHeadRef, Item item);
 int popNodeStack(Node** stackHeadRef);
@@ -77,8 +80,8 @@ int main()
 	printTotalDegree(&adjacencyList);
 	printTotalEdges(&adjacencyList);
 	printIsGraph(&adjacencyList);
+	printCheckIsConnectedGraphWithStack(&adjacencyList);
 	printCheckEulerianWalk(&adjacencyList);
-	printCheckIsConnectedGraph(&adjacencyList);
 
 	printAdjacencyList(&adjacencyList);
 
@@ -520,14 +523,10 @@ bool checkEulerianWalk(Node** listHeadRef)
     }
 
 	// Check if is a connected graph
-	// All nodes must be connected for us to check if eulerian walk exists
-	/*
-		if(ifConnectedGraph(listHeadRef) == -1) {
-			// Checks with DFS if we can visit every node once
-			// If one of them has visited = 0 then we said it is not connected
-			return false;
-		}
-	*/
+	if(!checkIsConnectedGraph(listHeadRef)) {
+		printf("El grafo no es conexo");
+		return false;
+	}
 
 	// Insert edge for first node
 	while (currentNode != NULL) {
@@ -566,8 +565,72 @@ bool checkIsConnectedGraph(Node** listHeadRef)
         return false;
     }
 
+	recursiveDFS(listHeadRef, -1);
+
+	currentNode = *listHeadRef;
+
+	bool isConnected = true;
+	while (currentNode != NULL) {
+		if (!currentNode->visited) {
+			isConnected = false;
+			break;
+		}
+        currentNode = currentNode->next;
+    }
+
+	return isConnected;
+}
+
+void recursiveDFS(Node** listHeadRef, Item item)
+{
+	Node *currentNode;
+	currentNode = *listHeadRef;
+
+	if (item != -1) {
+		while (currentNode != NULL && currentNode->data != item) {
+			currentNode = currentNode->next;
+		}
+	}
+	currentNode->visited=true;
+	Edge *currentEdge;
+	currentEdge = currentNode->nextEdge;
+	while(currentEdge != NULL) {
+		currentNode = *listHeadRef;
+		while (currentNode != NULL && currentNode->data != currentEdge->data) {
+			currentNode = currentNode->next;
+		}
+		if (!currentNode->visited) {
+			recursiveDFS(listHeadRef, currentNode->data);
+		}
+		currentEdge = currentEdge->next;
+	}
+}
+
+void printCheckIsConnectedGraph(Node** listHeadRef)
+{
+	if(checkIsConnectedGraph(listHeadRef)) {
+		printf("El grafo es conexo");
+		printf("\n");
+	} else {
+		printf("El grafo no es conexo");
+		printf("\n");
+	}
+}
+
+bool checkIsConnectedGraphWithStack(Node** listHeadRef)
+{
+	Node *currentNode, *visitedNodeHead;
+
+	resetVisitedNodes(listHeadRef);
+
+	currentNode = *listHeadRef;
+
+    if (currentNode == NULL) {
+        return false;
+    }
+
 	Node *stack = NULL;
-	recursiveDFS(listHeadRef, -1, &stack);
+	recursiveDFSWithStack(listHeadRef, -1, &stack);
 
 	// Free up memory used for tracking the stack
 	while(stack != NULL) {
@@ -588,7 +651,7 @@ bool checkIsConnectedGraph(Node** listHeadRef)
 	return isConnected;
 }
 
-void recursiveDFS(Node** listHeadRef, Item item, Node** stack)
+void recursiveDFSWithStack(Node** listHeadRef, Item item, Node** stack)
 {
 	Node *currentNode;
 	currentNode = *listHeadRef;
@@ -609,15 +672,15 @@ void recursiveDFS(Node** listHeadRef, Item item, Node** stack)
 			currentNode = currentNode->next;
 		}
 		if (!currentNode->visited) {
-			recursiveDFS(listHeadRef, currentNode->data, stack);
+			recursiveDFSWithStack(listHeadRef, currentNode->data, stack);
 		}
 		currentEdge = currentEdge->next;
 	}
 }
 
-void printCheckIsConnectedGraph(Node** listHeadRef)
+void printCheckIsConnectedGraphWithStack(Node** listHeadRef)
 {
-	if(checkIsConnectedGraph(listHeadRef)) {
+	if(checkIsConnectedGraphWithStack(listHeadRef)) {
 		printf("El grafo es conexo");
 		printf("\n");
 	} else {
