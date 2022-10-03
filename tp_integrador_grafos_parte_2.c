@@ -366,6 +366,11 @@ void addEdge(Node** listHeadRef, Item itemA, Item itemB)
 		currentEdge->next = newEdgeB;
 	}
 
+	// If it is a cycle stop here
+	if (itemA == itemB) {
+		return;
+	}
+
 	// Insert edge for second node
 
 	if(nodeB->nextEdge == NULL) {
@@ -488,6 +493,11 @@ void removeEdge(Node** listHeadRef, Item itemA, Item itemB)
 	prevEdge->next = currentEdge->next;
  
     free(currentEdge);
+
+	// If it is a cycle stop here
+	if (itemA == itemB) {
+		return;
+	}
 
 	// Search and Remove edge for second node
 
@@ -642,7 +652,6 @@ bool checkEulerianWalk(Node** listHeadRef)
 
 	// Check if is a connected graph
 	if(!checkIsConnectedGraph(listHeadRef)) {
-		printf("El grafo no es conexo");
 		return false;
 	}
 
