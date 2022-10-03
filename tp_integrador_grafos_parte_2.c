@@ -42,7 +42,7 @@ void printIsGraph(Node** listHeadRef);
 bool hasEulerianWalk(Node** listHeadRef);
 void printCheckEulerianWalk(Node** listHeadRef);
 bool checkIsConnectedGraph(Node** listHeadRef);
-void recursiveDFS(Node** stackHeadRef, Item item);
+void recursiveDFS(Node** listHeadRef, Item item, Node** stack);
 void printCheckIsConnectedGraph(Node** listHeadRef);
 void resetVisitedNodes(Node** listHeadRef);
 void pushNodeStack(Node** stackHeadRef, Item item);
@@ -64,7 +64,7 @@ int main()
 
 	addNodeTail(&adjacencyList, 6);
 	
-	addEdge(&adjacencyList, 1, 2);
+	addEdge(&adjacencyList, 1, 3);
 	addEdge(&adjacencyList, 2, 3);
 	addEdge(&adjacencyList, 2, 4);
 	addEdge(&adjacencyList, 2, 5);
@@ -566,7 +566,13 @@ bool checkIsConnectedGraph(Node** listHeadRef)
         return false;
     }
 
-	recursiveDFS(listHeadRef, -1);
+	Node *stack = NULL;
+	recursiveDFS(listHeadRef, -1, &stack);
+
+	// Free up memory used for tracking the stack
+	while(stack != NULL) {
+		popNodeStack(&stack);
+	}
 
 	currentNode = *listHeadRef;
 
@@ -582,7 +588,7 @@ bool checkIsConnectedGraph(Node** listHeadRef)
 	return isConnected;
 }
 
-void recursiveDFS(Node** listHeadRef, Item item)
+void recursiveDFS(Node** listHeadRef, Item item, Node** stack)
 {
 	Node *currentNode;
 	currentNode = *listHeadRef;
@@ -592,6 +598,8 @@ void recursiveDFS(Node** listHeadRef, Item item)
 			currentNode = currentNode->next;
 		}
 	}
+	pushNodeStack(stack, currentNode->data);
+	displayNodeStack(stack);
 	currentNode->visited=true;
 	Edge *currentEdge;
 	currentEdge = currentNode->nextEdge;
@@ -601,7 +609,7 @@ void recursiveDFS(Node** listHeadRef, Item item)
 			currentNode = currentNode->next;
 		}
 		if (!currentNode->visited) {
-			DFS(listHeadRef, currentNode->data);
+			recursiveDFS(listHeadRef, currentNode->data, stack);
 		}
 		currentEdge = currentEdge->next;
 	}
