@@ -174,6 +174,7 @@ void menuOptionFive(Node** listHeadRef)
 	if(!checkIsGraph(listHeadRef)) {
 		printf("La lista de adyancencia no representa un grafo.");
 		printf("\n");
+		return;
 	}
 	printCheckIsConnectedGraph(listHeadRef);
 }
@@ -183,6 +184,7 @@ void menuOptionSix(Node** listHeadRef)
 	if(!checkIsGraph(listHeadRef)) {
 		printf("La lista de adyancencia no representa un grafo.");
 		printf("\n");
+		return;
 	}
 	printCheckEulerianWalk(listHeadRef);
 }
