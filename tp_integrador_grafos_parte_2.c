@@ -42,6 +42,7 @@ void printIsGraph(Node** listHeadRef);
 bool hasEulerianWalk(Node** listHeadRef);
 void printCheckEulerianWalk(Node** listHeadRef);
 bool checkIsConnectedGraph(Node** listHeadRef);
+void recursiveDFS(Node** stackHeadRef, Item item);
 void printCheckIsConnectedGraph(Node** listHeadRef);
 void resetVisitedNodes(Node** listHeadRef);
 void pushNodeStack(Node** stackHeadRef, Item item);
@@ -565,46 +566,13 @@ bool checkIsConnectedGraph(Node** listHeadRef)
         return false;
     }
 
-	// Iterative DFS
-	Node *nodeStack = NULL;
-	pushNodeStack(&nodeStack, currentNode->data);
-	currentNode->visited = true;
-
-	bool isFirstNode = true;
-	displayNodeStack(&nodeStack);
-	while (nodeStack != NULL) {
-		Node *stackTopNode;
-		Edge *currentEdge;
-		stackTopNode = nodeStack;
-		while(currentNode->data != stackTopNode->data) {
-			currentNode = currentNode->next;
-		}
-		if (isFirstNode) {
-			popNodeStack(&nodeStack);
-			isFirstNode = false;
-		}
-		currentEdge = currentNode->nextEdge;	
-		while(currentEdge != NULL) {
-			currentNode = *listHeadRef;
-			while(currentNode->data != currentEdge->data) {
-				currentNode = currentNode->next;
-			}
-			if (currentNode->visited == false) {
-				currentNode->visited = true;
-				pushNodeStack(&nodeStack, currentNode->data);
-			}
-			currentEdge = currentEdge->next;
-		}
-		displayNodeStack(&nodeStack);
-		popNodeStack(&nodeStack);
-	}
-	displayNodeStack(&nodeStack);
+	recursiveDFS(listHeadRef, -1);
 
 	currentNode = *listHeadRef;
 
 	bool isConnected = true;
 	while (currentNode != NULL) {
-		if (currentNode->visited == false) {
+		if (!currentNode->visited) {
 			isConnected = false;
 			break;
 		}
@@ -612,6 +580,31 @@ bool checkIsConnectedGraph(Node** listHeadRef)
     }
 
 	return isConnected;
+}
+
+void recursiveDFS(Node** listHeadRef, Item item)
+{
+	Node *currentNode;
+	currentNode = *listHeadRef;
+
+	if (item != -1) {
+		while (currentNode != NULL && currentNode->data != item) {
+			currentNode = currentNode->next;
+		}
+	}
+	currentNode->visited=true;
+	Edge *currentEdge;
+	currentEdge = currentNode->nextEdge;
+	while(currentEdge != NULL) {
+		currentNode = *listHeadRef;
+		while (currentNode != NULL && currentNode->data != currentEdge->data) {
+			currentNode = currentNode->next;
+		}
+		if (!currentNode->visited) {
+			DFS(listHeadRef, currentNode->data);
+		}
+		currentEdge = currentEdge->next;
+	}
 }
 
 void printCheckIsConnectedGraph(Node** listHeadRef)
