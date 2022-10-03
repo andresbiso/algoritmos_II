@@ -27,7 +27,6 @@ struct EdgeElement
 void addNodeTail(Node** listHeadRef, Item item);
 Node* createNode(Item item);
 void removeNode(Node** listHeadRef, Item item);
-void printAdjacencyList(Node** listHeadRef);
 void addEdge(Node** listHeadRef, Item itemA, Item itemB);
 Edge* createEdge(Item item);
 void removeEdge(Node** listHeadRef, Item itemA, Item itemB);
@@ -51,44 +50,92 @@ void resetVisitedNodes(Node** listHeadRef);
 void pushNodeStack(Node** stackHeadRef, Item item);
 int popNodeStack(Node** stackHeadRef);
 void displayNodeStack(Node** stackHeadRef);
+void printAdjacencyList(Node** listHeadRef);
+void demo();
 
 int main()
 {
 	Node *adjacencyList;
+	int menu_option;
 
 	adjacencyList = NULL;
-	
-	addNodeTail(&adjacencyList, 1);
-	addNodeTail(&adjacencyList, 2);
-	addNodeTail(&adjacencyList, 3);
-	addNodeTail(&adjacencyList, 4);
-	addNodeTail(&adjacencyList, 5);
-	addNodeTail(&adjacencyList, 6);
 
-	addNodeTail(&adjacencyList, 6);
-	
-	addEdge(&adjacencyList, 1, 3);
-	addEdge(&adjacencyList, 2, 3);
-	addEdge(&adjacencyList, 2, 4);
-	addEdge(&adjacencyList, 2, 5);
-	addEdge(&adjacencyList, 2, 6);
-	addEdge(&adjacencyList, 3, 4);
-	addEdge(&adjacencyList, 4, 5);
-	addEdge(&adjacencyList, 5, 6);
+	printf("Bienvenido!\n");
+	printf("-----------\n\n");
 
-	printNodeDegree(&adjacencyList, 2);
-	printTotalDegree(&adjacencyList);
-	printTotalEdges(&adjacencyList);
-	printIsGraph(&adjacencyList);
-	printCheckIsConnectedGraphWithStack(&adjacencyList);
-	printCheckEulerianWalk(&adjacencyList);
+	do
+	{
+		printf("Menú Principal\n");
+		printf("1-Agregar Nodo\n");
+		printf("2-Agregar Arista\n");
+		printf("3-Quitar Nodo\n");
+		printf("4-Quitar Arista\n");
+		printf("5-Verificar si es conexo\n");
+		printf("6-Verificar si contiene camino euleriano\n");
+		printf("7-Imprimir Lista de Adyacencia\n");
+		printf("8-Demo\n");
+		printf("20-Salir\n");
+		printf("Ingrese una opción:");
+		scanf("%d", &menu_option);
 
-	printAdjacencyList(&adjacencyList);
+		switch (menu_option)
+		{
+			case 1:
+				Item item;
+				printf("Ingrese valor del nuevo nodo:\n");
+    			scanf("%d", &item);
+				addNodeTail(&adjacencyList, item);
+				break;
+			case 2:
+				Item itemA, itemB;
+				printf("Ingrese los nodos a unir:\n");
+    			scanf("%d %d", &itemA, &itemB);
+				addEdge(&adjacencyList, itemA, itemB);
+				break;
+			case 3:
+				Item item;
+				printf("Ingrese nodo a eliminar:\n");
+    			scanf("%d", &item);
+				removeNode(&adjacencyList, item);
+				break;
+			case 4:
+				Item itemA, itemB;
+				printf("Ingrese nodos a quitar relación:\n");
+    			scanf("%d %d", &itemA, &itemB);
+				removeEdge(&adjacencyList, itemA, itemB);
+				break;
+			case 5:
+				if(!checkIsGraph(&adjacencyList)) {
+					printf("La lista de adyancencia no representa un grafo.");
+					printf("\n");
+				}
+				printCheckIsConnectedGraph(&adjacencyList);
+				break;
+			case 6:
+				if(!checkIsGraph(&adjacencyList)) {
+					printf("La lista de adyancencia no representa un grafo.");
+					printf("\n");
+				}
+				printCheckEulerianWalk(&adjacencyList);
+				break;
+			case 7:
+				printAdjacencyList(&adjacencyList);
+				break;
+			case 8:
+				demo();
+				break;
+			case 20:
+				break;
+			default:
+				printf("Opción Inválida \n");
+				printf("Presione [Enter] para continuar \n");
+				do {
+				    getchar();
+				} while(getchar()!='\n');
+				break;
+		}
 
-	removeEdge(&adjacencyList, 2, 6);
-	removeNode(&adjacencyList, 4);
-
-	printAdjacencyList(&adjacencyList);
+	} while (menu_option != 20);
 
 	return 0;
 }
@@ -752,7 +799,8 @@ void displayNodeStack(Node** stackHeadRef)
 	printf ("\n\n");
 }
 
-void printAdjacencyList(Node** listHeadRef) {
+void printAdjacencyList(Node** listHeadRef)
+{
 	Node *ptrNode;
 
 	printf("***Nodos***");
@@ -786,58 +834,42 @@ void printAdjacencyList(Node** listHeadRef) {
 	return;
 }
 
-// int main()
-// {
-// 	int menu_option;
+void demo() {
+	Node *adjacencyList;
 
-// 	printf("Bienvenido!\n");
-// 	printf("-----------\n\n");
+	adjacencyList = NULL;
+	
+	addNodeTail(&adjacencyList, 1);
+	addNodeTail(&adjacencyList, 2);
+	addNodeTail(&adjacencyList, 3);
+	addNodeTail(&adjacencyList, 4);
+	addNodeTail(&adjacencyList, 5);
+	addNodeTail(&adjacencyList, 6);
 
-// 	do
-// 	{
-// 		printf("Menú Principal\n");
-// 		printf("1-Agregar Nodo\n");
-// 		printf("2-Agregar Arista\n");
-// 		printf("3-Quitar Nodo\n");
-// 		printf("4-Quitar Arista\n");
-// 		printf("5-Verificar conexo\n");
-// 		printf("6-Verificar euleriano\n");
-// 		printf("7-Imprimir Grafo\n");
-// 		printf("8-Iniciar Grafo\n");
-// 		printf("20-Save and quit.\n");
-// 		printf("Ingrese una opción:");
-// 		scanf("%d", &menu_option);
+	addNodeTail(&adjacencyList, 6);
+	
+	addEdge(&adjacencyList, 1, 3);
+	addEdge(&adjacencyList, 2, 3);
+	addEdge(&adjacencyList, 2, 4);
+	addEdge(&adjacencyList, 2, 5);
+	addEdge(&adjacencyList, 2, 6);
+	addEdge(&adjacencyList, 3, 4);
+	addEdge(&adjacencyList, 4, 5);
+	addEdge(&adjacencyList, 5, 6);
 
-// 		switch (menu_option)
-// 		{
-// 			case 1:
-// 				break;
-// 			case 2:
-// 				break;
-// 			case 3:
-// 				break;
-// 			case 4:
-// 				break;
-// 			case 5:
-// 				break;
-// 			case 6:
-// 				break;
-// 			case 7:
-// 				break;
-// 			case 8:
-// 				break;
-// 			case 20:
-// 				break;
-// 			default:
-// 				printf("Opción Inválida \n");
-// 				printf("Presione [Enter] para continuar \n");
-// 				do {
-// 				    getchar();
-// 				} while(getchar()!='\n');
-// 				break;
-// 		}
+	printNodeDegree(&adjacencyList, 2);
+	printTotalDegree(&adjacencyList);
+	printTotalEdges(&adjacencyList);
+	printIsGraph(&adjacencyList);
+	printCheckIsConnectedGraphWithStack(&adjacencyList);
+	printCheckEulerianWalk(&adjacencyList);
 
-// 	} while (menu_option != 20);
+	printAdjacencyList(&adjacencyList);
 
-// 	return 0;
-// }
+	removeEdge(&adjacencyList, 2, 6);
+	removeNode(&adjacencyList, 4);
+
+	printAdjacencyList(&adjacencyList);
+
+	return;
+}
