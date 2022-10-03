@@ -24,6 +24,15 @@ struct EdgeElement
 };
 
 // Functions Declarations
+void menuOptionOne(Node** listHeadRef);
+void menuOptionTwo(Node** listHeadRef);
+void menuOptionThree(Node** listHeadRef);
+void menuOptionFour(Node** listHeadRef);
+void menuOptionFive(Node** listHeadRef);
+void menuOptionSix(Node** listHeadRef);
+void menuOptionSeven(Node** listHeadRef);
+void menuOptionEight();
+void backToMenuMessage();
 void addNodeTail(Node** listHeadRef, Item item);
 Node* createNode(Item item);
 void removeNode(Node** listHeadRef, Item item);
@@ -56,7 +65,7 @@ void demo();
 int main()
 {
 	Node *adjacencyList;
-	int menu_option;
+	int menuOption;
 
 	adjacencyList = NULL;
 
@@ -76,53 +85,41 @@ int main()
 		printf("8-Demo\n");
 		printf("20-Salir\n");
 		printf("Ingrese una opción:");
-		scanf("%d", &menu_option);
+		scanf("%d", &menuOption);
 
-		switch (menu_option)
+		switch (menuOption)
 		{
 			case 1:
-				Item item;
-				printf("Ingrese valor del nuevo nodo:\n");
-    			scanf("%d", &item);
-				addNodeTail(&adjacencyList, item);
+				menuOptionOne(&adjacencyList);
+				backToMenuMessage();
 				break;
 			case 2:
-				Item itemA, itemB;
-				printf("Ingrese los nodos a unir:\n");
-    			scanf("%d %d", &itemA, &itemB);
-				addEdge(&adjacencyList, itemA, itemB);
+				menuOptionTwo(&adjacencyList);
+				backToMenuMessage();
 				break;
 			case 3:
-				Item item;
-				printf("Ingrese nodo a eliminar:\n");
-    			scanf("%d", &item);
-				removeNode(&adjacencyList, item);
+				menuOptionThree(&adjacencyList);
+				backToMenuMessage();
 				break;
 			case 4:
-				Item itemA, itemB;
-				printf("Ingrese nodos a quitar relación:\n");
-    			scanf("%d %d", &itemA, &itemB);
-				removeEdge(&adjacencyList, itemA, itemB);
+				menuOptionFour(&adjacencyList);
+				backToMenuMessage();
 				break;
 			case 5:
-				if(!checkIsGraph(&adjacencyList)) {
-					printf("La lista de adyancencia no representa un grafo.");
-					printf("\n");
-				}
-				printCheckIsConnectedGraph(&adjacencyList);
+				menuOptionFive(&adjacencyList);
+				backToMenuMessage();
 				break;
 			case 6:
-				if(!checkIsGraph(&adjacencyList)) {
-					printf("La lista de adyancencia no representa un grafo.");
-					printf("\n");
-				}
-				printCheckEulerianWalk(&adjacencyList);
+				menuOptionSix(&adjacencyList);
+				backToMenuMessage();
 				break;
 			case 7:
-				printAdjacencyList(&adjacencyList);
+				menuOptionSeven(&adjacencyList);
+				backToMenuMessage();
 				break;
 			case 8:
-				demo();
+				menuOptionEight();
+				backToMenuMessage();
 				break;
 			case 20:
 				break;
@@ -135,14 +132,84 @@ int main()
 				break;
 		}
 
-	} while (menu_option != 20);
+	} while (menuOption != 20);
 
 	return 0;
+}
+
+void menuOptionOne(Node** listHeadRef)
+{
+	int item;
+	printf("Ingrese valor del nuevo nodo:");
+	scanf("%d", &item);
+	addNodeTail(listHeadRef, item);
+}
+
+void menuOptionTwo(Node** listHeadRef)
+{
+	int itemA, itemB;
+	printf("Ingrese los nodos a unir:");
+	scanf("%d %d", &itemA, &itemB);
+	addEdge(listHeadRef, itemA, itemB);
+}
+
+void menuOptionThree(Node** listHeadRef)
+{
+	int item;
+	printf("Ingrese nodo a eliminar:");
+	scanf("%d", &item);
+	removeNode(listHeadRef, item);
+}
+
+void menuOptionFour(Node** listHeadRef)
+{
+	int itemA, itemB;
+	printf("Ingrese nodos a quitar relación:");
+	scanf("%d %d", &itemA, &itemB);
+	removeEdge(listHeadRef, itemA, itemB);
+}
+
+void menuOptionFive(Node** listHeadRef)
+{
+	if(!checkIsGraph(listHeadRef)) {
+		printf("La lista de adyancencia no representa un grafo.");
+		printf("\n");
+	}
+	printCheckIsConnectedGraph(listHeadRef);
+}
+
+void menuOptionSix(Node** listHeadRef)
+{
+	if(!checkIsGraph(listHeadRef)) {
+		printf("La lista de adyancencia no representa un grafo.");
+		printf("\n");
+	}
+	printCheckEulerianWalk(listHeadRef);
+}
+
+void menuOptionSeven(Node** listHeadRef)
+{
+	printAdjacencyList(listHeadRef);
+}
+
+void menuOptionEight()
+{
+	demo();
+}
+
+void backToMenuMessage()
+{
+	printf("Presione [Enter] para continuar \n");
+	do {
+		getchar();
+	} while(getchar()!='\n');
 }
 
 void addNodeTail(Node** listHeadRef, Item item)
 {
 	Node *newNode, *currentNode;
+
+	currentNode = *listHeadRef;
 
 	// Check if node already exists
 
@@ -169,6 +236,8 @@ void addNodeTail(Node** listHeadRef, Item item)
         }
         currentNode->next = newNode;
     }
+
+	return;
 }
 
 Node* createNode(Item item)
